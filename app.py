@@ -19,14 +19,8 @@ def load_data():
 @app.route('/')
 def index():
     addons = load_data()
-    return render_template("index.html", addon=addons)
-
-@app.route('/')
-def index():
     flowers = load_data()
-    return render_template("index.html", flower=flowers)
-
-
+    return render_template("index.html", addon=addons, flower=flowers)
 
 
 

@@ -6,11 +6,20 @@
     <title>Flask Website</title>
 </head>
 <body>
-    <h1> Displaying JSON flower data</h1>
-    <ul>  
-        {% for flower, details in flower.items() %}
-        <li>{{ flower }} - $ {{ details['price'] }} (stock: {{  details['stock']  }}) </li>
-        {%  endfor  %}
-    </ul>
+        <h1> Displaying JSON flower data</h1>
+        <ul>  
+            {% for flower, details in flower.items() %}
+            <li>{{ flower }} - $ {{ details['price'] }} (stock: {{ details['stock'] }}) </li>
+            {% endfor %}
+        </ul>
+
+        <h1> Add-ons available</h1>
+        <ul>
+            {% for addon, details in addon.items() %}
+            <li> {{ addon }} - $ {{ details['price'] }} (stock: {{ details['stock'] }}) </li>
+            {% endfor %}
+        </ul>
+
+
 </body>
 </html>

@@ -7,12 +7,20 @@
 </head>
 <body>
         <h1> Displaying JSON flower data</h1>
-        <ul>  
-            {% for flower, details in flower.items() %}
-            <li>{{ flower }} - $ {{ details['price'] }} (stock: {{ details['stock'] }}) </li>
-            {% endfor %}
-        </ul>
-
+        <form action="{{ url_for('add_to_cart')}}" method="post">
+            <fieldset>
+                <legend for="flower"> select flowers</legend>
+                <select name="flower" id="flower">
+                {% for flower, details in flower.items() %}
+                <option value="{{ flower }}">{{ flower }} - $ {{ details['price'] }} </option>
+                {% endfor %}
+            </select>
+            <label for="quantity"> Quantity </label>
+            <input type="number" name="quantity" value="1" min="1">
+            <button type="submit"> Add to cart </button>
+            </fieldset>
+        </form>
+        
         <h1> Add-ons available</h1>
         <ul>
             {% for addon, details in addon.items() %}
@@ -22,4 +30,4 @@
 
 
 </body>
-</html>
+</html>     

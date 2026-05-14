@@ -1,24 +1,9 @@
-# @app.route('/about')
-# def about():
-#     return render_template('about.html')
-
-
-# @app.route('/checkout')
-# def checkout():
-#     return render_template('invoice.html')
-
-
-# @app.route('/orders')
-# def order_history():
-#     return render_template('order_history.html')
-
-
 import json
 
 from flask import Flask, render_template, request, session, flash, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = '11037'
 
 
 def load_data():
@@ -33,41 +18,49 @@ def load_data():
 
 @app.route('/')
 def index():
+    addons = load_data()
+    flowers = load_data()
+    return render_template("index.html", addon=addons, flower=flowers)
+
+
+@app.route('/index1')
+def index1():
     flowers = load_data()
     addons = load_data()
-    return render_template("index.html", addon=addons, flower=flowers)
+    return render_template("index1.html", addon=addons, flower=flowers)
 
 # Info on form data
 @app.route('/add_to_cart', methods=["POST"])
 def add_to_cart():
-    flower = request.form[flower] #flower name
-    quantity = int(request.form['quantity']) #quantity in numbers
-    flowers, addons = load_data() #aqquires flower data - the addon data
-    cart = session.get('cart', {}) # get cart from the session or a fresh one
+    flower = request.form['flower'] #grab flower name
+    quantity = int(request.form['quantity']) # makes the quantity a number
+    flowers = load_data() #gets flower data from file
+    cart = session.get('cart', {}) #gets a cart from session or starts a fresh one
 
     if flower not in flowers:
-        flash("invalid flower selected.")
-        return redirect(url_for('home')) 
+        flash("invalid flower selected")
+        return redirect(url_for('/'))
     
     if flower in cart:
-        cart[flower] [quantity] += quantity #add existing quantity
+        cart[flower][quantity] += quantity # adds existing quantity
     else:
         cart[flower] = {
-            'price': flower[flower]['price'],
+            'price': flowers[flower]['price'],
             'quantity': quantity
+
         }
 
-    session ['cart'] = cart # update the session
-    session.modified = True # flask will save the data
-    flash(f"{quantity} {flower}(s) added to cart.") #says the [flower name] [amount] is added to the end users cart
-    return redirect(url_for('home'))
-
-
-
-
+    session['cart'] = cart #upadtes session
+    session.modified = True #flask will save it
+    flash(f"{quantity} {flowers}(s) added to cart") #message sent to end user upon action
+    return redirect(url_for('index')) #refreshes homepage
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
 
 

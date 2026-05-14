@@ -9,7 +9,7 @@
         <h1> Displaying JSON flower data</h1>
         <ul>  
             {% for flower, details in flower.items() %}
-            <li>{{ flower }} - $ {{ details['price'] }} (stock: {{ details['stock'] }}) </li>
+              <li> {{ flower }} - $ {{details['price']}} (stock: {{details['stock'] }}) </li>  
             {% endfor %}
         </ul>
 

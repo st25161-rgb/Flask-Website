@@ -10,7 +10,7 @@ def load_data():
     with open('data/addons.json') as file:
         addons = json.load(file)
     return addons
-
+    
 def load_data():
     with open('data/flowers.json') as file:
         flowers = json.load(file)
@@ -18,16 +18,20 @@ def load_data():
 
 @app.route('/')
 def index():
-    addons = load_data()
     flowers = load_data()
-    return render_template("index.html", addon=addons, flower=flowers)
+    addons = load_data()
+    return render_template("index.html", 
+                           flower=flowers, 
+                           addon=addons)
 
 
 @app.route('/index1')
 def index1():
     flowers = load_data()
     addons = load_data()
-    return render_template("index1.html", addon=addons, flower=flowers)
+    return render_template("index.html", 
+                           flower=flowers, 
+                           addon=addons)  
 
 # Info on form data
 @app.route('/add_to_cart', methods=["POST"])
@@ -55,6 +59,8 @@ def add_to_cart():
     flash(f"{quantity} {flowers}(s) added to cart") #message sent to end user upon action
     return redirect(url_for('index')) #refreshes homepage
 
+with open("data/addons.json", "r") as f:
+    data = json.load(f)
 
 if __name__ == '__main__':
     app.run(debug=True)

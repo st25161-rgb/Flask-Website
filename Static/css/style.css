@@ -1,0 +1,40 @@
+body {
+    background-color: rgb(213, 248, 255);
+}
+
+nav {
+    display: flex;
+    justify-content: space-evenly;
+    height:20px;
+    background-color: rgb(255, 255, 255);
+    border: solid groove;
+    border-color: black;
+    border-width: 10px;
+}
+
+main {
+    background-color: rgba(163, 179, 193, 0.355);
+    margin: 10px 5px 10px 10px
+}
+
+#mainhead {
+    text-decoration: wavy;
+    text-decoration-color: aliceblue;
+    font-family: "Saira", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 520;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 112.5;
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+}
+
+.maintext {
+    font-family: "Londrina Shadow", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}

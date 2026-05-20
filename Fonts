@@ -1,0 +1,22 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Saira:wdth,wght@112.5,520&display=swap" rel="stylesheet">
+
+.saira-<uniquifier> {
+  font-family: "Saira", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 520;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 112.5;
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Londrina+Shadow&display=swap" rel="stylesheet">
+
+.londrina-shadow-regular {
+  font-family: "Londrina Shadow", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

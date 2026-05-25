@@ -12,22 +12,9 @@
 </head>
 <body>
     <main>
+        <!-- Flower option form -->
         <h1 id="mainhead"> Displaying JSON flower data</h1>
-        <ul class="maintext">  
-            {% for flower_name, details in flower.items() %}
-              <li> {{ flower_name }} - $ {{details['price']}} (stock: {{details['stock'] }}) </li>  
-            {% endfor %}
-        </ul>
-
-        <h1 id="mainhead"> Add-ons available</h1>
-        <ul class="maintext">
-            {% for addon_name, details in addon.items() %}
-            <li> {{ addon_name }} - $ {{details['cost']}} </li>
-            {% endfor %}
-        </ul>
-
-        <h1 id="mainhead"> Displaying JSON flower data</h1>
-        <form action="{{ url_for('add_to_cart')}}" method="POST" class="maintext">
+        <form action="{{ url_for('add_to_cart')}}" method="POST"    >
             <fieldset>
                 <legend for="flower"> Select Flowers</legend>
                 <select name="flower" id="flower">
@@ -40,6 +27,21 @@
                 <button type="submit"> Add to cart </button>
             </fieldset>
         </form>
+
+        <!-- Addon form -->
+        <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
+            <fieldset>
+                <Legend>Add-ons</Legend>
+                {% for addon, data in addon.items() %}
+                    <label>
+                        <input type="checkbox" name="addon" value="{{ addons }}">
+                        {{ addon }} (${{ data.price }})
+                    </label><br>
+                {% endfor %}
+                <button type="submit">Add to cart</button>
+            </fieldset>
+        </form>
+        
     
 
         {% with messages = get_flashed_messages() %}
@@ -52,6 +54,7 @@
             {% endif %}
         {% endwith %}
         <h2> Your Cart</h2>
+
         {% if cart %}
             <ul>
                 {% for item, details in cart.items() %}
@@ -60,9 +63,19 @@
                         <a href="{{ url_for('remove_from_cart', item=item) }}"> [Remove]</a>
                     </li>
                 {% endfor %}
-             </ul>
-        {% else %}
-            <p>Your cart is empty</p>
+            </ul>
+            {% else %}
+                <p>Your cart is empty</p>
+        {% endif %}
+
+        {% if selected_addon %}
+            <ul>
+                {% for selected_addon, details in addons.items() %}
+                <li> {{ addon }}: {{ '%.2f' % details['cost']}} </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No addon selected</p>
         {% endif %}
     </main>
 </body>

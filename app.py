@@ -20,7 +20,8 @@ def index():
     flowers = load_flower_data()
     addons = load_addon_data()
     cart = session.get('cart', {})
-    return render_template("index.html", flower=flowers, addon=addons, cart=cart)
+    selected_addons = session.get('')
+    return render_template("index.html", flower=flowers, addon=addons, cart=cart, selected_addon=selected_addons)
 
 
 @app.route('/index1')
@@ -88,7 +89,21 @@ def remove_from_cart(item):
          
     return redirect(url_for('index'))
 
+@app.route('/select_addon', methods=['POST'])
+def select_addon():
+    selected_addons = {}
+    print(load_addon_data())
+    _, addons, _, _, = load_addon_data() #only need addons
 
+    selected_keys = request.form.getlist('addons')
+
+    for addon in selected_keys:
+        if addon in addons:     
+            selected_addons[addon] = float(addons[addon]['cost'])
+            
+    session['selected_addons'] = selected_addons
+    session.modified = True
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

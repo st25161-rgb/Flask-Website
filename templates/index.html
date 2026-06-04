@@ -18,7 +18,7 @@
             <fieldset>
                 <legend for="flower"> Select Flowers</legend>
                 <select name="flower" id="flower">
-                    {% for flower, details in flower.items() %}
+                    {% for flower, details in flowers.items() %}
                     <option value="{{ flower }}">{{ flower }} - $ {{ details['price'] }} </option>
                     {% endfor %}
                 </select>
@@ -32,9 +32,9 @@
         <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
             <fieldset>
                 <Legend>Add-ons</Legend>
-                {% for addon, data in addon.items() %}
+                {% for addon, data in addons.items() %}
                     <label>
-                        <input type="checkbox" name="addon" value="{{ addons }}">
+                        <input type="checkbox" name="addons" value="{{ addon }}">
                         {{ addon }} (${{ data.price }})
                     </label><br>
                 {% endfor %}
@@ -53,10 +53,11 @@
                 </ul>
             {% endif %}
         {% endwith %}
-        <h2> Your Cart</h2>
 
+        <h2> Your Cart</h2 id="maintext">
         {% if cart %}
-            <ul>
+            <ul class="maintext">
+                <!-- flower flash message -->
                 {% for item, details in cart.items() %}
                     <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }}
                          =${{ details['quantity'] * details['price'] }}
@@ -68,14 +69,15 @@
                 <p>Your cart is empty</p>
         {% endif %}
 
-        {% if selected_addon %}
-            <ul>
-                {% for selected_addon, details in addons.items() %}
-                <li> {{ addon }}: {{ '%.2f' % details['cost']}} </li>
+        {% if selected_addons %}
+            <!-- addon flash message -->
+            <ul class="maintext">
+                {% for addon, details in selected_addons.items() %}
+                    <li>  {{ addon }}:  </li>
                 {% endfor %}
             </ul>
             {% else %}
-            <p>No addon selected</p>
+                <p> No Addon Selected</p>
         {% endif %}
     </main>
 </body>

@@ -20,15 +20,15 @@ def index():
     flowers = load_flower_data()
     addons = load_addon_data()
     cart = session.get('cart', {})
-    selected_addons = session.get('')
-    return render_template("index.html", flower=flowers, addon=addons, cart=cart, selected_addon=selected_addons)
+    selected_addons = session.get('selected_addons', {})
+    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons)
 
 
 @app.route('/index1')
 def index1():
     flowers = load_flower_data()
     addons = load_addon_data()
-    return render_template("index1.html", flower=flowers, addon=addons)  
+    return render_template("index1.html", flowers=flowers, addons=addons)  
 
 @app.route('/base')
 def base():
@@ -63,7 +63,7 @@ def add_to_cart():
         return redirect(url_for('index'))
     
     if flower in cart:
-        cart[flower]['quantity'] += quantity # adds existing quantity
+        cart[flower]['quantity'] += quantity # adds to existing quantity
     else:
         cart[flower] = {
             'price': flowers[flower]['price'],
@@ -92,14 +92,13 @@ def remove_from_cart(item):
 @app.route('/select_addon', methods=['POST'])
 def select_addon():
     selected_addons = {}
-    print(load_addon_data())
-    _, addons, _, _, = load_addon_data() #only need addons
+    addons = load_addon_data() #only need addons
 
     selected_keys = request.form.getlist('addons')
 
     for addon in selected_keys:
         if addon in addons:     
-            selected_addons[addon] = float(addons[addon]['cost'])
+            selected_addons[addon] = float(addons[addon]['price'])
             
     session['selected_addons'] = selected_addons
     session.modified = True

@@ -1,6 +1,6 @@
 {
-    "Ribbon": {"cost":2},
-    "Specialty wrappping paper": {"cost":5},
-    "Personalised note": {"cost":3},
-    "Delivery": {"cost":10}
+    "Ribbon": {"price":2 },
+    "Specialty wrappping_paper": {"price":5 },
+    "Personalised note": {"price":3 },
+    "Delivery": {"price":10 }
 }

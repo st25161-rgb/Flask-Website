@@ -99,10 +99,17 @@ def select_addon():
     for addon in selected_keys:
         if addon in addons:     
             selected_addons[addon] = float(addons[addon]['price'])
+            len(selected_addons)
             
     session['selected_addons'] = selected_addons
     session.modified = True
     return redirect(url_for('index'))
+
+def calculate_total(cart, selected_addons):
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    total += sum(selected_addons.values())
+    total = calculate_total(cart, selected_addons)
+    return total
 
 if __name__ == '__main__':
     app.run(debug=True)

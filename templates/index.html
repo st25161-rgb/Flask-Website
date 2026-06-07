@@ -73,7 +73,7 @@
             <!-- addon flash message -->
             <ul class="maintext">
                 {% for addon, details in selected_addons.items() %}
-                    <li>  {{ addon }}:  </li>
+                    <li> {{ addon }} (${{ data.price }}) </li>
                 {% endfor %}
             </ul>
             {% else %}

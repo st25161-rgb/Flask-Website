@@ -21,7 +21,9 @@ def index():
     addons = load_addon_data()
     cart = session.get('cart', {})
     selected_addons = session.get('selected_addons', {})
-    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons)
+    total = calculate_total(cart, selected_addons)
+
+    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons, total=total)
 
 
 @app.route('/index1')
@@ -107,8 +109,7 @@ def select_addon():
 
 def calculate_total(cart, selected_addons):
     total = sum(item['price'] * item['quantity'] for item in cart.values())
-    total += sum(selected_addons.values())
-    total = calculate_total(cart, selected_addons)
+    total += sum(price for price in selected_addons.values())
     return total
 
 if __name__ == '__main__':

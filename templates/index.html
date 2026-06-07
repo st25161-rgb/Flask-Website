@@ -79,6 +79,11 @@
             {% else %}
                 <p> No Addon Selected</p>
         {% endif %}
+
+        <h2 id="total">Total: ${{ '%.2f' % total }}</h2>
+        <h3 id="total"> Subtotal-Flowers: ${{ '%.2f' % (total - sum(price for price in selected_addons.values())) }} </h3>
+        <h3 id="total"> Subtotal-Flowers: ${{ '%.2f' % (total - sum(price for price in cart.values())) }} </h3>
+
     </main>
 </body>
 </html>     

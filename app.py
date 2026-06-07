@@ -83,7 +83,7 @@ def remove_from_cart(item):
         del cart[item]
         session['cart'] = cart
         session.modified = True
-        flash(f"Removed all {item} from the cart.")
+        flash(f"Removed all {item}('s) from the cart.")
     else:
         flash(f"{item} not found in cart.")
          

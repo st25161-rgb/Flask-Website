@@ -112,6 +112,14 @@ def calculate_total(cart, selected_addons):
     total += sum(price for price in selected_addons.values())
     return total
 
+@app.route('/cancel_order', methods=['POST'])
+def cancel_order():
+    session.pop('cart', None)
+    session.pop('selected_addons', None)
+    session.modified = True
+
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True)
 

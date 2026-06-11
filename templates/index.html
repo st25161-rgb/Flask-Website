@@ -24,21 +24,23 @@
                 </select>
                 <label for="quantity"> Quantity </label>
                 <input type="number" name="quantity" value="1" min="1">
-                <button type="submit"> Add to cart </button>
-            </fieldset>
-        </form>
-
-        <!-- Addon form -->
-        <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
-            <fieldset>
-                <Legend>Add-ons</Legend>
+                
+                 <Legend>Add-ons</Legend>
                 {% for addon, data in addons.items() %}
                     <label>
                         <input type="checkbox" name="addons" value="{{ addon }}">
                         {{ addon }} (${{ data.price }})
                     </label><br>
                 {% endfor %}
-                <button type="submit">Add to cart</button>
+                <button type="submit" id="submit">Add to cart</button>
+                <button type="submit" formaction="{{ url_for('cancel_order') }}" id="submit" method="post">Cancel Order</button>
+
+            </fieldset>
+        </form>
+
+        <!-- Addon form -->
+        <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
+            <fieldset>
             </fieldset>
         </form>
         
@@ -81,9 +83,7 @@
         {% endif %}
 
         <h2 id="total">Total: ${{ '%.2f' % total }}</h2>
-        <h3 id="total"> Subtotal-Flowers: ${{ '%.2f' % (total - sum(price for price in selected_addons.values())) }} </h3>
-        <h3 id="total"> Subtotal-Flowers: ${{ '%.2f' % (total - sum(price for price in cart.values())) }} </h3>
-
+        <br>
     </main>
 </body>
 </html>     

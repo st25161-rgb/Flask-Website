@@ -118,7 +118,8 @@ def cancel_order():
     session.pop('cart', None)
     session.pop('selected_addons', None)
     session.modified = True
-    
+    flash(f"cart emptied")
+
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

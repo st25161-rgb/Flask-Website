@@ -14,7 +14,7 @@
     <main>
         <!-- Flower option form -->
         <h1 id="mainhead"> Displaying JSON flower data</h1>
-        <form action="{{ url_for('add_to_cart')}}" method="POST"    >
+        <form action="{{ url_for('add_to_cart')}}" method="POST">
             <fieldset>
                 <legend for="flower"> Select Flowers</legend>
                 <select name="flower" id="flower">
@@ -24,8 +24,14 @@
                 </select>
                 <label for="quantity"> Quantity </label>
                 <input type="number" name="quantity" value="1" min="1">
-                
-                 <Legend>Add-ons</Legend>
+                <button type="submit" id="submit"> Add to cart </button>
+            </fieldset>
+        </form>
+
+        <!-- Addon form -->
+        <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
+            <fieldset>
+                <Legend>Add-ons</Legend>
                 {% for addon, data in addons.items() %}
                     <label>
                         <input type="checkbox" name="addons" value="{{ addon }}">
@@ -33,14 +39,6 @@
                     </label><br>
                 {% endfor %}
                 <button type="submit" id="submit">Add to cart</button>
-                <button type="submit" formaction="{{ url_for('cancel_order') }}" id="submit" method="post">Cancel Order</button>
-
-            </fieldset>
-        </form>
-
-        <!-- Addon form -->
-        <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
-            <fieldset>
             </fieldset>
         </form>
         
@@ -84,6 +82,9 @@
 
         <h2 id="total">Total: ${{ '%.2f' % total }}</h2>
         <br>
+        <form action="{{ url_for('cancel_order') }}" method="post">
+        <button type="submit" formaction="{{ url_for('cancel_order') }}" id="submit">Cancel Order</button>
+        </form>
     </main>
 </body>
 </html>     

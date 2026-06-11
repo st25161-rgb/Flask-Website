@@ -46,9 +46,24 @@ main {
 #total {
     display: flex;
     justify-content: center;
-    font-family: "Londrina Shadow", sans-serif;
-    font-weight: 400;
-    font-style: normal; 
+    font-family: "Saira", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 520;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 112.5;
+}
+#submit {
+    border: solid groove;
+    border-color: black;
+    margin: 10px 5px 10px 5px;
+}
+
+#submit a:hover {
+    border: groove;
+    border-color: rgb(160, 160, 160);
+    margin: 10px 5px 10px 5px;
+    font-size:larger
 }
 }
 
@@ -97,4 +112,25 @@ main {
     font-style: normal;
 }
 
+#total {
+    display: flex;
+    justify-content: center;
+    font-family: "Saira", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 520;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 112.5;
+}
+#submit {
+    border: solid groove;
+    border-color: black;
+    margin: 10px 5px 10px 5px;
+}
+#submit a:hover {
+    border: groove;
+    border-color: rgb(160, 160, 160);
+    margin: 10px 5px 10px 5px;
+    font-size:larger
+}
 }

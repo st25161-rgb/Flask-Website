@@ -105,6 +105,7 @@ def select_addon():
             
     session['selected_addons'] = selected_addons
     session.modified = True
+
     return redirect(url_for('index'))
 
 def calculate_total(cart, selected_addons):
@@ -117,7 +118,7 @@ def cancel_order():
     session.pop('cart', None)
     session.pop('selected_addons', None)
     session.modified = True
-
+    
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

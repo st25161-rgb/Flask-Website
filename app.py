@@ -28,8 +28,9 @@ def index():
     cart = session.get('cart', {})
     selected_addons = session.get('selected_addons', {})
     total = calculate_total(cart, selected_addons)
+    checkout = session.get('checkout', False)
 
-    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons, total=total)
+    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons, total=total, checkout=checkout)
 
 
 @app.route('/index1')

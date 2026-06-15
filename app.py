@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from flask import Flask, render_template, request, session, flash, redirect, url_for
@@ -14,6 +15,11 @@ def load_flower_data():
     with open('data/flowers.json') as file:
         flowers = json.load(file)
     return flowers
+
+def calculate_total(cart, selected_addons):
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    total += sum(price for price in selected_addons.values())
+    return total
 
 @app.route('/')
 def index():
@@ -39,8 +45,15 @@ def base():
 
 @app.route('/invoice')
 def invoice():
+    cart = session.get('cart', {})
+    selected_addons = session.get('selected_addons', {})
+    total = calculate_total(cart, selected_addons)
+    customer_name = session.get('customer_name')
+    invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    invoice_name = f"INV_{customer_name.replace(' ','_')}_{invoice_date})"
+
     
-    return render_template("invoice.html")  
+    return render_template("invoice.html", cart=cart, selected_addons=selected_addons, total=total, customer_name=customer_name, invoice_date=invoice_date, invoice_name=invoice_name)  
 
 @app.route('/order_history')
 def order_history():
@@ -108,10 +121,7 @@ def select_addon():
 
     return redirect(url_for('index'))
 
-def calculate_total(cart, selected_addons):
-    total = sum(item['price'] * item['quantity'] for item in cart.values())
-    total += sum(price for price in selected_addons.values())
-    return total
+
 
 @app.route('/cancel_order', methods=['POST'])
 def cancel_order():
@@ -121,6 +131,31 @@ def cancel_order():
     flash(f"cart emptied")
 
     return redirect(url_for('index'))
+
+app.route('/checkout', methods=['POST'])
+def checkout():
+    customer_name = request.form['customer_name'].strip().title()
+    #check if the customer has entered a name, if not, displays a message
+    # then it returns to index page
+    if not customer_name:
+        flash("Customer name is required")
+        return redirect(url_for('index'))
+    
+    cart = session.get('cart', {})
+    selected_addons = session.get('selected_addons', {})
+
+    if not cart:
+        flash("Your cart is empty.")
+        return redirect(url_for('index'))
+
+    total = calculate_total(cart, selected_addons)
+    invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    invoice_name = f"INV_{customer_name.replace(' ','_')}_{invoice_date})"
+
+    #display invoice information on the invoice page
+    return render_template('invoice.html', customer_name=customer_name, cart=cart, 
+    selected_addons=selected_addons, total=total, invoice_name=invoice_name,
+    invoice_date=invoice_date, datetime=datetime)
 
 if __name__ == '__main__':
     app.run(debug=True)

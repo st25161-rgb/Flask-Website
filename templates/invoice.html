@@ -14,9 +14,16 @@
     <header>
         <h1 id="mainhead">Invoices</h1>
     </header>
-    <main>
+    <nav> <a href="{{ url_for('index') }}">Back to shop</a>
+    <main class="Invoice">
         <h2 id="mainhead">Invoice</h2>
-        <p> This page will show the customer invoice after checkout </p>
+    <p> Thank you for your order {{ customer_name}}</p>
+    <br>
+    <p> Your Invoice Number is {{ invoice_name }}</p>
+    <br>
+    <p> Your total is $ {{ total }}</p>
+    <br>
+    <p> Invoice Date: {{ invoice_date }}</p>
     </main>
 </body>
 </html>

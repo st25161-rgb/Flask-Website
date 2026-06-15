@@ -54,7 +54,7 @@
             {% endif %}
         {% endwith %}
 
-        <h2> Your Cart</h2 id="maintext">
+        <h2> Your Cart</h2 id="subtitle">
         {% if cart %}
             <ul class="maintext">
                 <!-- flower flash message -->
@@ -80,12 +80,17 @@
                 <p> No Addon Selected</p>
         {% endif %}
 
-        <h2 id="total">Total: ${{ '%.2f' % total }}</h2>
-        <br>
-        <form action="{{ url_for('cancel_order') }}" method="post">
-            <button type="submit" formaction="{{ url_for('cancel_order') }}" id="submit" onlclick="return confirm('Are you sure you want to cancel the order?')">Cancel Order</button>
+        <h2 id="subtitle">Total: ${{ '%.2f' % total }}</h2>
+
+            
+        <form>
+            <label for="customer_name_checkout"equired>Your Name:</label>
+            <input type="text" name="customer_name" id="customer_name_checkout" required>
+            <br>
+            <button type="submit" formaction="{{ url_for('checkout') }}" id="submit">Checkout</button>
+            <button type="submit" formaction="{{ url_for('cancel_order') }}" id="submit" onclick="return confirm('Are you sure you want to cancel your order?');">Cancel Order</button>
         </form>
     </main>
 </body>
-</html>     
+</html>         
 {% endblock %}

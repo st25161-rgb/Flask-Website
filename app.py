@@ -28,9 +28,10 @@ def index():
     cart = session.get('cart', {})
     selected_addons = session.get('selected_addons', {})
     total = calculate_total(cart, selected_addons)
+    cancel_order = session.get('cancel_order', False)
     checkout = session.get('checkout', False)
 
-    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons, total=total, checkout=checkout)
+    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons, total=total, checkout=checkout, cancel_order=cancel_order)
 
 
 @app.route('/index1')
@@ -51,10 +52,12 @@ def invoice():
     total = calculate_total(cart, selected_addons)
     customer_name = session.get('customer_name')
     invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    invoice_name = f"INV_{customer_name.replace(' ','_')}_{invoice_date})"
+    
+    invoice_number = f"INV_{customer_name.replace(' ','_')}_{invoice_date})"
 
     
-    return render_template("invoice.html", cart=cart, selected_addons=selected_addons, total=total, customer_name=customer_name, invoice_date=invoice_date, invoice_name=invoice_name)  
+    return render_template('invoice.html', cart=cart, selected_addons=selected_addons, total=total, 
+                           customer_name=customer_name, invoice_date=invoice_date, invoice_number=invoice_number)  
 
 @app.route('/order_history')
 def order_history():
@@ -129,12 +132,12 @@ def cancel_order():
     session.pop('cart', None)
     session.pop('selected_addons', None)
     session.modified = True
-    flash(f"cart emptied")
+    flash(f"Cart has been emptied")
 
     return redirect(url_for('index'))
 
-app.route('/checkout', methods=['POST'])
-def checkout():
+@app.route('/checkout', methods=['POST'])
+def checkout() :
     customer_name = request.form['customer_name'].strip().title()
     #check if the customer has entered a name, if not, displays a message
     # then it returns to index page
@@ -151,12 +154,10 @@ def checkout():
 
     total = calculate_total(cart, selected_addons)
     invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    invoice_name = f"INV_{customer_name.replace(' ','_')}_{invoice_date})"
+    invoice_name = f"INV_{customer_name.replace('  ','_')}_{invoice_date}"
 
     #display invoice information on the invoice page
-    return render_template('invoice.html', customer_name=customer_name, cart=cart, 
-    selected_addons=selected_addons, total=total, invoice_name=invoice_name,
-    invoice_date=invoice_date, datetime=datetime)
+    return render_template('invoice.html', cart=cart, selected_addons=selected_addons, total=total, customer_name=customer_name, invoice_date=invoice_date, invoice_name=invoice_name)
 
 if __name__ == '__main__':
     app.run(debug=True)

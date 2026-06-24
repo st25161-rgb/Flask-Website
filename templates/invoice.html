@@ -6,24 +6,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoices</title>
 </head>
 <body>
     <header>
-        <h1 id="mainhead">Invoices</h1>
+        <h1 id="mainhead">Invoice</h1>
     </header>
-    <nav> <a href="{{ url_for('index') }}">Back to shop</a>
     <main class="Invoice">
-        <h2 id="mainhead">Invoice</h2>
-    <p> Thank you for your order {{ customer_name}}</p>
-    <br>
-    <p> Your Invoice Number is {{ invoice_name }}</p>
-    <br>
-    <p> Your total is $ {{ total }}</p>
-    <br>
-    <p> Invoice Date: {{ invoice_date }}</p>
+        <body>
+            <p> Thank you for your order {{ customer_name }}</p>
+            <br>
+            <p> Your Invoice Number is {{ invoice_name }}</p>
+            <br>
+            <p> Your order includes: </p>
+            <ul>
+                <p> Flowers: </p>
+                {% for item in cart %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                <p> Add-ons: </p>
+                {% for addon in selected_addons %}
+                    <li>{{ addon }}</li>
+                {% endfor %}
+            </ul>
+            <br>
+            <p> Your total is $ {{ total }}</p>
+            <br>
+            <p> Invoice Date: {{ invoice_date }}</p>
+        </body>
+        <br>
+        <a href="{{ url_for('index') }}" id="return">Back to shop</a>
     </main>
 </body>
 </html>

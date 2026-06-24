@@ -10,7 +10,7 @@ nav {
     display: flex;
     justify-content: space-evenly;
     height:20px;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(137, 157, 162);
     border: solid groove;
     border-color: black;
     border-width: 10px;
@@ -30,6 +30,12 @@ main {
     font-style: normal;
     font-variation-settings:
     "wdth" 112.5;
+}
+
+#return {
+    border: solid groove;
+    border-color: black;
+    margin: 10px 5px 10px 5px;
 }
 
 #title {
@@ -59,11 +65,16 @@ main {
     margin: 10px 5px 10px 5px;
 }
 
-#submit a:hover {
+#return a:hover {
     border: groove;
     border-color: rgb(160, 160, 160);
     margin: 10px 5px 10px 5px;
     font-size:larger
+}
+
+footer {
+    background-color: rgb(137, 157, 162);
+    border: solid groove;
 }
 
 .Invoice {
@@ -73,12 +84,18 @@ main {
     font-style: normal;
      font-variation-settings:
     "wdth" 112.5;
+
+    background-color: rgba(94, 197, 185, 0.808);
+    margin: 10px, 0px, 10px, 10px;
 }
+
+
+
 }
 
 
 
-@media screen and (min-width:300px) and (min-height:300px) {
+@media screen and (min-width:300px) and (min-height:100px) {
 
     body {
     background-color: rgb(213, 248, 255);
@@ -110,6 +127,12 @@ main {
     "wdth" 112.5;
 }
 
+#return {
+    border: solid groove;
+    border-color: black;
+    margin: 10px 5px 10px 5px;
+}
+
 #title {
     display: flex;
     justify-content: center;
@@ -129,12 +152,14 @@ main {
     font-variation-settings:
     "wdth" 112.5;
 }
+
 #submit {
     border: solid groove;
     border-color: black;
     margin: 10px 5px 10px 5px;
 }
-#submit a:hover {
+
+#return a:hover {
     border: groove;
     border-color: rgb(160, 160, 160);
     margin: 10px 5px 10px 5px;

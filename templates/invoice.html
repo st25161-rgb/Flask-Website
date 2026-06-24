@@ -22,16 +22,21 @@
             <p> Your Invoice Number is {{ invoice_name }}</p>
             <br>
             <p> Your order includes: </p>
-            <ul>
-                <p> Flowers: </p>
-                {% for item in cart %}
-                    <li>{{ item }}</li>
-                {% endfor %}
-                <p> Add-ons: </p>
-                {% for addon in selected_addons %}
-                    <li>{{ addon }}</li>
-                {% endfor %}
-            </ul>
+                <h4> Flowers: </h4>
+                <ul>
+                    {% for item, details in cart.items() %}
+                    <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }}
+                            =${{ details['quantity'] * details['price'] }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <h4> Add-ons: </h4>
+                <ul class="maintext">
+                    {% for addon, details in selected_addons.items() %}
+                        <li> {{ addon }} (${{ '%.2f' % details }}) </li>
+                    {% endfor %}
+                </ul>
             <br>
             <p> Your total is $ {{ total }}</p>
             <br>

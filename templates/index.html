@@ -58,7 +58,7 @@
 
         <h2> Your Cart</h2 id="subtitle">
         {% if cart %}
-            <ul class="maintext">
+            <ul class="invoice_list">
                 <!-- flower flash message -->
                 {% for item, details in cart.items() %}
                     <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }}
@@ -73,7 +73,7 @@
 
         {% if selected_addons %}
             <!-- addon flash message -->
-            <ul class="maintext">
+            <ul class="invoice_list">
                 {% for addon, details in selected_addons.items() %}
                     <li> {{ addon }} (${{ '%.2f' % details }}) </li>
                 {% endfor %}

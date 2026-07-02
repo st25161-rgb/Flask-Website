@@ -1,5 +1,6 @@
 import datetime
 import json
+import sqlite3
 
 from flask import Flask, render_template, request, session, flash, redirect, url_for
 
@@ -20,6 +21,22 @@ def calculate_total(cart, selected_addons):
     total = sum(item['price'] * item['quantity'] for item in cart.values())
     total += sum(price for price in selected_addons.values())
     return total
+
+def initialise_database():
+    with sqlite3.connect('flower_shop.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS orders (
+                order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                invoice_number TEXT,
+                customer_name TEXT,
+                items TEXT,
+                addons TEXT,
+                total REAL,
+                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
 
 @app.route('/')
 def index():
@@ -138,28 +155,41 @@ def cancel_order():
 
 @app.route('/checkout', methods=['POST'])
 def checkout() :
-    customer_name = request.form['customer_name'].strip().title()
+    customer_name = request.form['customer_name'].strip().title() #validate customer name
     #check if the customer has entered a name, if not, displays a message
     # then it returns to index page
     if not customer_name:
         flash("Customer name is required")
         return redirect(url_for('index'))
     
-    cart = session.get('cart', {})
-    selected_addons = session.get('selected_addons', {})
+    cart = session.get('cart', {}) #enters items into cart and tells route what they are
+    selected_addons = session.get('selected_addons', {}) #tells route the selcted addons from the session
 
-    if not cart:
+    if not cart: #to prevent an error of an empty cart
         flash("Your cart is empty.")
         return redirect(url_for('index'))
 
-    total = calculate_total(cart, selected_addons)
-    invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    invoice_name = f"INV_{customer_name.replace('  ','_')}_{invoice_date}"
+    total = calculate_total(cart, selected_addons) #calculates total
+    invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')#creates invoice and date
+    invoice_number = f"INV_{customer_name.replace('  ','_')}_{invoice_date}"
+    
+    with sqlite3.connect('flower_shop.db') as conn:  #saves to sqlite database
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO orders (invoice_number, customer_name, items, addons, total)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (invoice_number, customer_name, json.dumps(cart), json.dumps(selected_addons), total, invoice_date))
+        conn.commit()
 
-    #display invoice information on the invoice page
-    return render_template('invoice.html', cart=cart, selected_addons=selected_addons, total=total, customer_name=customer_name, invoice_date=invoice_date, invoice_name=invoice_name)
+    #displays invoice information on the invoice page
+    return render_template('invoice.html', cart=cart, selected_addons=selected_addons, total=total, customer_name=customer_name, invoice_date=invoice_date, invoice_number=invoice_number)
+
+    print(f"\nSaved order for: {customer_name}")
+    print(f"cart: {cart}")
+    print(f"Total: {total}\n")
 
 if __name__ == '__main__':
+    initialise_database()
     app.run(debug=True)
 
 

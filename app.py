@@ -20,7 +20,18 @@ def load_flower_data():
 def calculate_total(cart, selected_addons):
     total = sum(item['price'] * item['quantity'] for item in cart.values())
     total += sum(price for price in selected_addons.values())
-    return total
+    
+    subtotal = total
+    discount_appplied = False
+    discount_amount = 0
+    
+    if total > 179:
+        discount_appplied = True
+        discount_amount = total * 0.10 #10% of the total which is the discount amount
+        total = total - discount_amount #total after discount gets applied
+        
+        
+    return total, discount_appplied
 
 def initialise_database():
     with sqlite3.connect('flower_shop.db') as conn:
@@ -33,8 +44,9 @@ def initialise_database():
                 items TEXT,
                 addons TEXT,
                 total REAL,
+                discount_applied BOOLEAN, 
                 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
+            );
         ''')
 
 
@@ -44,18 +56,38 @@ def index():
     addons = load_addon_data()
     cart = session.get('cart', {})
     selected_addons = session.get('selected_addons', {})
-    total = calculate_total(cart, selected_addons)
+    total, discount_applied = calculate_total(cart, selected_addons)
+    subtotal = total
+    discount_amount = 0
+    
+    if discount_applied:
+        subtotal = total / 0.90 #calculates subtotal before discount
+        discount_amount = subtotal - total #calculates discount amount
+
+    
     cancel_order = session.get('cancel_order', False)
     checkout = session.get('checkout', False)
 
-    return render_template("index.html", flowers=flowers, addons=addons, cart=cart, selected_addons=selected_addons, total=total, checkout=checkout, cancel_order=cancel_order)
+    return render_template("index.html", 
+                           flowers=flowers,
+                           addons=addons, 
+                           cart=cart, 
+                           selected_addons=selected_addons, 
+                           total=total, 
+                           subtotal=subtotal,
+                           discount_amount=discount_amount,
+                           discount_applied=discount_applied, 
+                           checkout=checkout,
+                           cancel_order=cancel_order)
 
 
 @app.route('/index1')
 def index1():
     flowers = load_flower_data()
     addons = load_addon_data()
-    return render_template("index1.html", flowers=flowers, addons=addons)  
+    return render_template("index1.html", 
+                           flowers=flowers, 
+                           addons=addons)  
 
 @app.route('/base')
 def base():
@@ -66,15 +98,29 @@ def base():
 def invoice():
     cart = session.get('cart', {})
     selected_addons = session.get('selected_addons', {})
-    total = calculate_total(cart, selected_addons)
+    total, discount_applied = calculate_total(cart, selected_addons)
+    subtotal = total
+    discount_amount = 0
+    
+    if discount_applied:
+        subtotal = total / 0.90 #calculates subtotal before discount
+        discount_amount = subtotal - total #calculates discount amount
+    
     customer_name = session.get('customer_name')
     invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    
-    invoice_number = f"INV_{customer_name.replace(' ','_')}_{invoice_date})"
+    invoice_number = f"INV_{customer_name.replace(' ','_')}_{invoice_date}"
 
     
-    return render_template('invoice.html', cart=cart, selected_addons=selected_addons, total=total, 
-                           customer_name=customer_name, invoice_date=invoice_date, invoice_number=invoice_number)  
+    return render_template('invoice.html', 
+                           cart=cart, 
+                           selected_addons=selected_addons, 
+                           total=total, 
+                           subtotal=subtotal,
+                           discount_amount=discount_amount,
+                           discount_applied=discount_applied,
+                           customer_name=customer_name, 
+                           invoice_date=invoice_date, 
+                           invoice_number=invoice_number)  
 
 @app.route('/order_history')
 def order_history():
@@ -153,6 +199,8 @@ def cancel_order():
 
     return redirect(url_for('index'))
 
+
+
 @app.route('/checkout', methods=['POST'])
 def checkout() :
     customer_name = request.form['customer_name'].strip().title() #validate customer name
@@ -164,25 +212,66 @@ def checkout() :
     
     cart = session.get('cart', {}) #enters items into cart and tells route what they are
     selected_addons = session.get('selected_addons', {}) #tells route the selcted addons from the session
+    
 
     if not cart: #to prevent an error of an empty cart
         flash("Your cart is empty.")
         return redirect(url_for('index'))
+    
+    
+    total, discount_applied = calculate_total(cart, selected_addons) #calculates total
+       #calculate subtotal and discount amount
+    subtotal = total
+    discount_amount = 0
 
-    total = calculate_total(cart, selected_addons) #calculates total
-    invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')#creates invoice and date
+    if discount_applied:
+        subtotal = total / 0.90 #calculates subtotal before discount
+        discount_amount = subtotal - total #calculates discount amount
+    
+    
+    invoice_date = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')#creates invoice and date
     invoice_number = f"INV_{customer_name.replace('  ','_')}_{invoice_date}"
     
     with sqlite3.connect('flower_shop.db') as conn:  #saves to sqlite database
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO orders (invoice_number, customer_name, items, addons, total)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (invoice_number, customer_name, json.dumps(cart), json.dumps(selected_addons), total, invoice_date))
+            INSERT INTO orders (invoice_number, customer_name, items, addons, total, discount_applied)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (invoice_number, customer_name, json.dumps(cart), json.dumps(selected_addons), total, discount_applied))
         conn.commit()
+        
+    invoice_filename = f"{invoice_number}.txt"
+    
+    with open(invoice_filename, 'w') as f:
+        f.write(f"Invoice Number: {invoice_number}\n")
+        f.write(f"Customer Name: {customer_name}\n")
+        f.write(f"Invoice Date: {invoice_date}\n")
+        f.write("\nItems:\n")
+        
+        for item, details in cart.items():
+            f.write(f"  {item}: {details['quantity']} x ${details['price']:.2f} = ${details['quantity'] * details['price']:.2f}\n")
+        f.write("\nAdd-ons:\n")
+        
+        for addon, price in selected_addons.items():
+            f.write(f"  {addon}: ${price:.2f}\n")
+        
+        f.write(f"\nSubtotal: ${subtotal:.2f}\n")
+        if discount_applied:
+            f.write(f"Discount (10%): ${discount_amount:.2f}\n") 
+            
+        f.write(f"\nTotal: ${total:.2f}\n")
+    
 
     #displays invoice information on the invoice page
-    return render_template('invoice.html', cart=cart, selected_addons=selected_addons, total=total, customer_name=customer_name, invoice_date=invoice_date, invoice_number=invoice_number)
+    return render_template('invoice.html', 
+                           cart=cart, 
+                           selected_addons=selected_addons,
+                            total=total,
+                            subtotal=subtotal,
+                            discount_amount=discount_amount,
+                            discount_applied=discount_applied,
+                            customer_name=customer_name,
+                            invoice_date=invoice_date)
 
     print(f"\nSaved order for: {customer_name}")
     print(f"cart: {cart}")

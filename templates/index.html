@@ -55,34 +55,44 @@
                 </ul>
             {% endif %}
         {% endwith %}
+        
+        <div class="Cart">
+            <h2> Your Cart</h2 id="subtitle">
+            {% if cart %}
+                <ul class="invoice_list">
+                    <!-- flower flash message -->
+                    {% for item, details in cart.items() %}
+                        <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }}
+                            =${{ details['quantity'] * details['price'] }}
+                            <a href="{{ url_for('remove_from_cart', item=item) }}"> [Remove]</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>Your cart is empty</p>
+            {% endif %}
 
-        <h2> Your Cart</h2 id="subtitle">
-        {% if cart %}
-            <ul class="invoice_list">
-                <!-- flower flash message -->
-                {% for item, details in cart.items() %}
-                    <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }}
-                         =${{ details['quantity'] * details['price'] }}
-                        <a href="{{ url_for('remove_from_cart', item=item) }}"> [Remove]</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-                <p>Your cart is empty</p>
-        {% endif %}
+            {% if selected_addons %}
+                <!-- addon flash message -->
+                <ul class="invoice_list">
+                    {% for addon, details in selected_addons.items() %}
+                        <li> {{ addon }} (${{ '%.2f' % details }}) </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p> No Addon Selected</p>
+            {% endif %}
 
-        {% if selected_addons %}
-            <!-- addon flash message -->
-            <ul class="invoice_list">
-                {% for addon, details in selected_addons.items() %}
-                    <li> {{ addon }} (${{ '%.2f' % details }}) </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-                <p> No Addon Selected</p>
-        {% endif %}
-
-        <h2 id="subtitle">Total: ${{ '%.2f' % total }}</h2>
+                <!-- shows original price -->
+            <h4> Subtotal: ${{ '%.2f' % subtotal }}</h4>
+            <!-- The Discount amount-->
+            {% if discount_applied %}
+                <h5>Discount Applied (10%): -${{ '%.2f' % (discount_amount) }} </h5>
+            {% endif %}
+            
+            <!-- The final price-->
+            <h2> Total: ${{ '%.2f' % total }}</h2>
+        </div>
 
             
         <form method="POST">

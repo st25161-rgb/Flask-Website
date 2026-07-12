@@ -15,11 +15,11 @@
     <header>
         <h1 id="mainhead">Invoice</h1>
     </header>
-    <main class="Invoice">
-        <body>
+    <main>
+        <body class="Invoice">
             <p> Thank you for your order {{ customer_name }}</p>
             <br>
-            <p> Your Invoice Number is {{ invoice_name }}</p>
+            <p> Your Invoice Number is {{ invoice_number }}</p>
             <br>
             <p> Your order includes: </p>
                 <h4> Flowers: </h4>
@@ -38,7 +38,7 @@
                     {% endfor %}
                 </ul>
             <br>
-            <p> Your total is $ {{ total }}</p>
+            <p> Your total is $ {{ '%.2f' % total }}</p>
             <br>
             <p> Invoice Date: {{ invoice_date }}</p>
         </body>

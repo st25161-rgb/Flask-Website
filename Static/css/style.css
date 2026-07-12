@@ -84,9 +84,11 @@ footer {
     font-style: normal;
      font-variation-settings:
     "wdth" 112.5;
+    display: flex;
+    justify-content: center;
+    margin: 0px 0px 0px 10px;
 
-    background-color: rgba(94, 197, 185, 0.808);
-    margin: 10px, 0px, 10px, 10px;
+  
 }
 
 

@@ -1,0 +1,15 @@
+Invoice Number: INV_Ok_2026-07-17 18-30-31
+Customer Name: Ok
+Invoice Date: 2026-07-17 18-30-31
+
+Items:
+  Carnation: 6 x $10.00 = $60.00
+
+Add-ons:
+  Delivery: $10.00
+  Personalised note: $3.00
+  chocolates: $8.00
+
+Subtotal: $81.00
+
+Total: $81.00

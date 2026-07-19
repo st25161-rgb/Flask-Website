@@ -1,0 +1,14 @@
+Invoice Number: INV_S_2026-07-17 18-24-38
+Customer Name: S
+Invoice Date: 2026-07-17 18-24-38
+
+Items:
+  Rose: 2 x $10.00 = $20.00
+
+Add-ons:
+  Delivery: $10.00
+  chocolates: $8.00
+
+Subtotal: $38.00
+
+Total: $38.00

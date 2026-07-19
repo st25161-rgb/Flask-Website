@@ -9,43 +9,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoices</title>
+    <title>Invoice</title>
 </head>
 <body>
-    <header>
-        <h1 id="mainhead">Invoice</h1>
-    </header>
-    <main>
-        <body class="Invoice">
-            <p> Thank you for your order {{ customer_name }}</p>
-            <br>
-            <p> Your Invoice Number is {{ invoice_number }}</p>
-            <br>
-            <p> Your order includes: </p>
-                <h4> Flowers: </h4>
-                <ul>
-                    {% for item, details in cart.items() %}
-                    <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }}
-                            =${{ details['quantity'] * details['price'] }}
-                    </li>
-                    {% endfor %}
-                </ul>
-                <br>
-                <h4> Add-ons: </h4>
-                <ul class="maintext">
-                    {% for addon, details in selected_addons.items() %}
-                        <li> {{ addon }} (${{ '%.2f' % details }}) </li>
-                    {% endfor %}
-                </ul>
-            <br>
-            <p> Your total is $ {{ '%.2f' % total }}</p>
-            <br>
-            <p> Invoice Date: {{ invoice_date }}</p>
-        </body>
-        <br>
-        <a href="{{ url_for('index') }}" id="return">Back to shop</a>
-    </main>
+    <h1>Invoice</h1>
+    <p>Invoice Number: {{ invoice_name }}</p>
+    <p>Invoice Date: {{ invoice_date }}</p>
+    <p>Customer Name: {{ customer_name }}</p>
+    <h4> Items:</h4>
+    <ul>
+        {% for item, details in cart.items() %}
+            <li> {{ item }}: {{ details['quantity'] }} x ${{ details['price'] }} = ${{ '%.2f' % (details['quantity'] * details['price']) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h4>Addons:</h4>
+    <ul>
+        {% for selected_addon, price in selected_addons.items() %}
+        <li>{{ selected_addon }}: ${{ '%.2f' % price }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Order Total: ${{ '%.2f' % total }}</h3>
 </body>
-</html>
 
 {% endblock %}

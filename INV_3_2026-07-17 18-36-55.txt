@@ -1,0 +1,15 @@
+Invoice Number: INV_3_2026-07-17 18-36-55
+Customer Name: 3
+Invoice Date: 2026-07-17 18-36-55
+
+Items:
+  Rose: 3 x $10.00 = $30.00
+
+Add-ons:
+  Delivery: $10.00
+  Personalised note: $3.00
+  chocolates: $8.00
+
+Subtotal: $51.00
+
+Total: $51.00

@@ -1,0 +1,17 @@
+Invoice Number: INV_Ok_2026-07-17 18-35-12
+Customer Name: Ok
+Invoice Date: 2026-07-17 18-35-12
+
+Items:
+  Rose: 1 x $10.00 = $10.00
+
+Add-ons:
+  Delivery: $10.00
+  Personalised note: $3.00
+  Ribbon: $2.00
+  Specialty wrappping paper: $5.00
+  chocolates: $8.00
+
+Subtotal: $38.00
+
+Total: $38.00

@@ -1,10 +1,30 @@
 {
-    "Rose": {"price":10, "stock": 50},
-    "Tulip": {"price":10, "stock": 40},
-    "Lily": {"price":10, "stock": 30},
-    "Daisy": {"price":10, "stock": 100},  
-    "Orchid": {"price":10, "stock": 20},
-    "Carnation": {"price":10, "stock": 70},
-    "Cornflower": {"price":10, "stock": 60}
-
+    "Rose": {
+        "price": 10,
+        "stock": 100
+    },
+    "Tulip": {
+        "price": 10,
+        "stock": 40
+    },
+    "Lily": {
+        "price": 10,
+        "stock": 30
+    },
+    "Daisy": {
+        "price": 10,
+        "stock": 100
+    },
+    "Orchid": {
+        "price": 10,
+        "stock": 20
+    },
+    "Carnation": {
+        "price": 10,
+        "stock": 70
+    },
+    "Cornflower": {
+        "price": 10,
+        "stock": 60
+    }
 }

@@ -8,14 +8,14 @@
 <body>
         <h1> Displaying JSON flower data</h1>
         <ul>  
-            {% for flower, details in flower.items() %}
+            {% for flower, details in flowers.items() %}
               <li> {{ flower }} - $ {{details['price']}} (stock: {{details['stock'] }}) </li>  
             {% endfor %}
         </ul>
 
         <h1> Add-ons available</h1>
         <ul>
-            {% for addon, details in addon.items() %}
+            {% for addon, details in addons.items() %}
             <li> {{ addon }} - $ {{ details['cost'] }} </li>
             {% endfor %}
 </body>

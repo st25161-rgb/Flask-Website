@@ -245,7 +245,7 @@ def checkout() :
     selected_addons = session.get('selected_addons', {}) #tells route the selcted addons from the session
     
 
-    if not cart: #to prevent an error of an empty cart
+    if not cart_drink or cart_pizza: #to prevent an error of an empty cart
         flash("Your cart is empty.")
         return redirect(url_for('index'))
     

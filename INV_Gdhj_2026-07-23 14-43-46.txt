@@ -1,0 +1,15 @@
+Invoice Number: INV_Gdhj_2026-07-23 14-43-46
+Customer Name: Gdhj
+Invoice Date: 2026-07-23 14-43-46
+
+Items:
+  Rose: 5 x $10.00 = $50.00
+
+Add-ons:
+  Delivery: $10.00
+  Personalised note: $3.00
+  chocolates: $8.00
+
+Subtotal: $71.00
+
+Total: $71.00

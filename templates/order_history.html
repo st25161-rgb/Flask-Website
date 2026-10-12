@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %} About - About Us {% endblock %}
+{% block title %} Order - Display {% endblock %}
 
 {% block content %}
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
         <title>Order History</title>
     </head>
         <header>
@@ -30,16 +30,18 @@
                             <td>{{ order['invoice_number'] }}</td>
                             <td>{{ order['customer_name'] }}</td>
                             <td> <ul>
-                                {% for item, details in order['items'].items() %}
-                                    <li> {{ item }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }} <br>
+                                {% for pizza, details in order['pizza'].items() %}
+                                    <li> {{ pizza }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }} <br>
                                     ${{ details['quantity'] * details['price'] }}
                                     </li>
                                 {% endfor %}
                             </ul></td>
                             <td> 
                                 <ul>
-                                    {% for addon, details in order['addons'].items() %}
-                                        <li> {{ addon }} (${{ '%.2f' % details }}) </li>
+                                    {% for drink, details in order['drinks'].items() %}
+                                    <li> {{ drink }}: {{ '%.2f' % details['quantity'] }} x ${{ details['price'] }} <br>
+                                    ${{ details['quantity'] * details['price'] }}
+                                    </li>
                                     {% endfor %}
                                 </ul>
                             </td>

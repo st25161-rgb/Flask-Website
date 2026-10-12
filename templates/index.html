@@ -31,12 +31,12 @@
         </form>
 
         <!-- Addon form -->
-        <form action="{{ url_for('select_addon') }}" method="post" class="maintext">
+        <form action="{{ url_for('select_addon') }}" method="post" class="maintext" >
             <fieldset>
                 <Legend>Add-ons</Legend>
                 {% for addon, data in addons.items() %}
-                    <label>
-                        <input type="checkbox" name="addons" value="{{ addon }}">
+                    <label id="drink_label">
+                        <input type="checkbox" name="addons" value="{{ addon }}" class="item_select_input" id="drink_input">
                         {{ addon }} (${{ data.price }})
                     </label><br>
                 {% endfor %}
